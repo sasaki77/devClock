@@ -31,7 +31,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-20.04, ubuntu-18.04]
-        cmp: [gcc, clang]
+        cmp: [gcc]
         configuration: [default]
         set: [base3-14, base3-15]
     steps:
@@ -48,7 +48,7 @@ jobs:
       run: python .ci/cue.py test-results
 
   build-macos:
-    name: ${{ matrix.cmp }} / ${{ matrix.configuration }} / ${{ matrix.os }}
+    name: ${{ matrix.cmp }} / ${{ matrix.configuration }} / ${{ matrix.os }} / ${{ matrix.set }}
     runs-on: ${{ matrix.os }}
     # Set environment variables from matrix parameters
     env:
@@ -65,6 +65,8 @@ jobs:
         set: [base3-14, base3-15]
     steps:
     - uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Prepare and compile dependencies
       run: python .ci/cue.py prepare
     - name: Build main module
