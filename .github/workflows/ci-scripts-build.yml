@@ -20,7 +20,7 @@ env:
 
 jobs:
   build-linux:
-    name: ${{ matrix.cmp }} / ${{ matrix.configuration }} / ${{ matrix.os }}
+    name: ${{ matrix.cmp }} / ${{ matrix.configuration }} / ${{ matrix.os }} / ${{ matrix.set }}
     runs-on: ${{ matrix.os }}
     # Set environment variables from matrix parameters
     env:
@@ -30,9 +30,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-20.04, ubuntu-18.04, ubuntu-16.04]
+        os: [ubuntu-20.04, ubuntu-18.04]
         cmp: [gcc, clang]
-        configuration: [default, static, debug, static-debug]
+        configuration: [default]
         set: [base3-14, base3-15]
     steps:
     - uses: actions/checkout@v2
@@ -61,43 +61,10 @@ jobs:
         os: [macos-10.15]
         cmp: [clang]
         # No static builds on MacOS
-        configuration: [default, debug]
+        configuration: [default]
         set: [base3-14, base3-15]
     steps:
     - uses: actions/checkout@v2
-    - name: Prepare and compile dependencies
-      run: python .ci/cue.py prepare
-    - name: Build main module
-      run: python .ci/cue.py build
-    - name: Run main module tests
-      run: python .ci/cue.py test
-    - name: Collect and show test results
-      run: python .ci/cue.py test-results
-
-  build-windows:
-    name: ${{ matrix.cmp }} / ${{ matrix.configuration }} / ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    env:
-      CMP: ${{ matrix.cmp }}
-      BCFG: ${{ matrix.configuration }}
-      SET: ${{ matrix.set }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [windows-2019, windows-2016]
-        cmp: [gcc, vs2019, vs2017]
-        configuration: [default, static, debug, static-debug]
-        set: [base3-14, base3-15]
-        # Available: vs2017/windows-2016 and vs2019/windows-2019
-        exclude:
-          - os: windows-2019
-            cmp: vs2017
-          - os: windows-2016
-            cmp: vs2019
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        submodules: true
     - name: Prepare and compile dependencies
       run: python .ci/cue.py prepare
     - name: Build main module
