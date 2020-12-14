@@ -62,7 +62,7 @@ jobs:
         cmp: [clang]
         # No static builds on MacOS
         configuration: [default]
-        set: [base3-14, base3-15]
+        set: [base3-15]
     steps:
     - uses: actions/checkout@v2
       with:
