@@ -4,6 +4,12 @@ include $(TOP)/configure/CONFIG
 #----------------------------------------
 #  ADD MACRO DEFINITIONS AFTER THIS LINE
 #=============================
+TESTPROD_HOST += clockAITest
+clockAITest_SRCS += clockAITest.c
+clockAITest_LIBS += aiSecond $(EPICS_BASE_IOC_LIBS)
+TESTS += clockAITest
+TESTSCRIPTS_HOST += $(TESTS:%=%.t)
+
 # Build an IOC support library
 
 LIBRARY_IOC += aiSecond

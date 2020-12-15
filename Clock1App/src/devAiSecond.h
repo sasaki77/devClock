@@ -8,3 +8,4 @@
 */
 
 #include <time.h>
+unsigned int get_value();

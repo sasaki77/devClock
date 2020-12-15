@@ -48,7 +48,6 @@ struct {
 	NULL
 };
 epicsExportAddress(dset,devAiSecond);
-
 
 /************************************************************************/
 /* Ai Record								*/
@@ -73,19 +72,16 @@ static long init_record(struct aiRecord *pai)
   return(0);
 }
 
-
 static long read_ai(struct aiRecord *pai)
 {
-  time_t t;
-  struct tm *tm;
-  
+  unsigned int sec = 0;
+
 #ifdef DEBUG_ON 
   printf("devAiSecond (read_ai) accessed\n");
 #endif
-  time(&t);
-  tm = localtime(&t);
+  sec = get_value();
   pai->udf = FALSE;
-  pai->rval = tm->tm_sec;
+  pai->rval = sec;
 #ifdef DEBUG_ON 
   printf("devAiSecond (read_ai) data %d\n", pai->rval);
 #endif
@@ -95,4 +91,15 @@ static long read_ai(struct aiRecord *pai)
   pai->val = *get_val;
   return(2);				/* do not convert */
 #endif
+}
+
+unsigned int get_value()
+{
+  time_t t;
+  struct tm *tm;
+
+  time(&t);
+  tm = localtime(&t);
+
+  return tm->tm_sec;
 }
