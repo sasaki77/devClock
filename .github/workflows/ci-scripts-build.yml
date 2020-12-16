@@ -71,6 +71,8 @@ jobs:
       run: python .ci/cue.py prepare
     - name: Build main module
       run: python .ci/cue.py build
+    - name: Install python applications
+      run: sudo pip install pytest pytest-tap py-epics
     - name: Run main module tests
       run: python .ci/cue.py test
     - name: Collect and show test results
