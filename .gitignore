@@ -12,3 +12,6 @@ templates/
 cdCommands
 envPaths
 dllPath.bat
+
+__pycache__/
+*.pyc

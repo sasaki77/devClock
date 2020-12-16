@@ -1,0 +1,16 @@
+record(longin, "$(head):LI1")
+{
+  field(FLNK, "$(head):CALC")
+}
+
+record(longin, "$(head):LI2")
+{
+  field(FLNK, "$(head):CALC")
+}
+
+record(calc, "$(head):CALC")
+{
+  field(CALC, "A+B")
+  field(INPA, "$(head):LI1")
+  field(INPB, "$(head):LI2")
+}
