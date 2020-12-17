@@ -12,8 +12,24 @@ def softioc():
     dir_path = os.path.dirname(__file__)
     db_file = os.path.join(dir_path, 'test.db')
 
+    hostArch = 'linux-x86_64'
+    if 'EPICS_HOST_ARCH' in os.environ:
+        hostArch = os.environ['EPICS_HOST_ARCH']
+    elif 'T_A' in os.environ:
+        hostArch = os.environ['T_A']
+    else:
+        print("Warning: EPICS_HOST_ARCH not set. Using default value of '{0}'".format(hostArch))
+
+    iocExecutable = 'softIoc'
+    if 'IOC_EPICS_BASE' in os.environ:
+        iocExecutable = os.path.join(os.environ['IOC_EPICS_BASE'], 'bin', hostArch, 'softIoc')
+    elif 'EPICS_BASE' in os.environ:
+        iocExecutable = os.path.join(os.environ['EPICS_BASE'], 'bin', hostArch, 'softIoc')
+    else:
+        print("Warning: IOC_EPICS_BASE or EPICS_BASE not set. Running 'softIoc' executable in PATH")
+
     ioc_arg_list = ['-m', 'head=ET_dummyHost', '-d', db_file]
-    iocprocess = IocControl(arg_list=ioc_arg_list)
+    iocprocess = IocControl(cpath=iocExecutable, arg_list=ioc_arg_list)
     iocprocess.start()
 
     yield iocprocess
