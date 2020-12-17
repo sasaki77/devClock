@@ -9,9 +9,6 @@ from ioccont import IocControl
 
 @pytest.fixture(scope='module')
 def softioc():
-    dir_path = os.path.dirname(__file__)
-    db_file = os.path.join(dir_path, 'test.db')
-
     hostArch = 'linux-x86_64'
     if 'EPICS_HOST_ARCH' in os.environ:
         hostArch = os.environ['EPICS_HOST_ARCH']
@@ -27,6 +24,9 @@ def softioc():
         iocExecutable = os.path.join(os.environ['EPICS_BASE'], 'bin', hostArch, 'softIoc')
     else:
         print("Warning: IOC_EPICS_BASE or EPICS_BASE not set. Running 'softIoc' executable in PATH")
+
+    dir_path = os.path.dirname(__file__)
+    db_file = os.path.join(dir_path, 'test.db')
 
     ioc_arg_list = ['-m', 'head=ET_dummyHost', '-d', db_file]
     iocprocess = IocControl(cpath=iocExecutable, arg_list=ioc_arg_list)

@@ -15,9 +15,6 @@ include $(TOP)/configure/RULES
 
 ifeq ($(T_A),$(EPICS_HOST_ARCH))
 
-#export EPICS_HOST_ARCH
-#export EPICS_BASE
-
 runtests:
 	pytest ../
 
